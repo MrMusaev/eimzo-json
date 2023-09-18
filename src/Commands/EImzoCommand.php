@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace opencard\EImzo\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class EImzoCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'eimzo-json';
 
     public $description = 'My command';
 
