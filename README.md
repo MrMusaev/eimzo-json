@@ -52,8 +52,8 @@ php artisan vendor:publish --tag="eimzo-json-views"
 ## Usage
 
 ```php
-$eImzo = new opencard\EImzo();
-echo $eImzo->echoPhrase('Hello, opencard!');
+$eImzo = new MrMusaev\EImzo();
+echo $eImzo->echoPhrase('Hello, MrMusaev!');
 ```
 
 ## Testing

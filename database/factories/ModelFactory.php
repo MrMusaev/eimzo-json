@@ -1,6 +1,6 @@
 <?php
 
-namespace opencard\EImzo\Database\Factories;
+namespace MrMusaev\EImzo\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 

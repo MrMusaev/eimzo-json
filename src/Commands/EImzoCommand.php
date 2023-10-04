@@ -1,6 +1,6 @@
 <?php
 
-namespace opencard\EImzo\Commands;
+namespace MrMusaev\EImzo\Commands;
 
 use Illuminate\Console\Command;
 

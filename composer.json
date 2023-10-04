@@ -1,12 +1,12 @@
 {
-    "name": "openbank/eimzo-json",
-    "description": "E-Imzo JSON Integration ",
+    "name": "mrmusaev/eimzo-json",
+    "description": "E-Imzo JSON Integration",
     "keywords": [
         "OpenBank",
         "laravel",
         "eimzo-json"
     ],
-    "homepage": "https://github.com/openbank/eimzo-json",
+    "homepage": "https://github.com/MrMusaev/eimzo-json",
     "license": "MIT",
     "authors": [
         {
@@ -16,9 +16,10 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "spatie/laravel-package-tools": "^1.14.0",
-        "illuminate/contracts": "^10.0"
+        "illuminate/contracts": "^10.0",
+        "spatie/laravel-data": "^3.9"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
@@ -30,13 +31,13 @@
     },
     "autoload": {
         "psr-4": {
-            "opencard\\EImzo\\": "src/",
-            "opencard\\EImzo\\Database\\Factories\\": "database/factories/"
+            "MrMusaev\\EImzo\\": "src/",
+            "MrMusaev\\EImzo\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "opencard\\EImzo\\Tests\\": "tests/",
+            "MrMusaev\\EImzo\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -67,10 +68,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "opencard\\EImzo\\EImzoServiceProvider"
+                "MrMusaev\\EImzo\\EImzoServiceProvider"
             ],
             "aliases": {
-                "EImzo": "opencard\\EImzo\\Facades\\EImzo"
+                "EImzo": "MrMusaev\\EImzo\\Facades\\EImzo"
             }
         }
     },

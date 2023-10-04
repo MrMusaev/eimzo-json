@@ -1,16 +1,17 @@
 <?php
 
-namespace opencard\EImzo\Facades;
+namespace MrMusaev\EImzo\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use MrMusaev\EImzo\EImzoJson;
 
 /**
- * @see \opencard\EImzo\EImzo
+ * @see \MrMusaev\EImzo\EImzoJson
  */
 class EImzo extends Facade
 {
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
-        return \opencard\EImzo\EImzo::class;
+        return EImzoJson::class;
     }
 }
