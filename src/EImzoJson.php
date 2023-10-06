@@ -7,6 +7,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\TransferException;
 use MrMusaev\Eimzo\Exceptions\ParameterNotConfiguredException;
 use MrMusaev\EImzo\Responses\ChallengeResponse;
+use MrMusaev\EImzo\Responses\MobileAuthenticateResponse;
 use MrMusaev\EImzo\Responses\MobileAuthResponse;
 use MrMusaev\EImzo\Responses\MobileStatusResponse;
 
@@ -84,6 +85,24 @@ class EImzoJson implements EImzoConnection
         return new MobileStatusResponse(
             status: $this->response['status'] ?? 0,
             message: $this->response['message'] ?? '',
+        );
+    }
+
+    public function mobileAuthenticate(string $documentId, string $realIP, string $host): MobileAuthenticateResponse
+    {
+        $this->url = '/backend/mobile/authenticate/' . $documentId;
+
+        $this->headers = [
+            'X-Real-IP' => $realIP,
+            'Host' => $host,
+        ];
+
+        $this->sendGetRequest();
+
+        return new MobileAuthenticateResponse(
+            status: $this->response['status'] ?? 0,
+            message: $this->response['message'] ?? '',
+            subjectCertificateInfo: $this->response['subjectCertificateInfo'] ?? [],
         );
     }
 

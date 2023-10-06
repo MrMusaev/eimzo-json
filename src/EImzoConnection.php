@@ -3,6 +3,7 @@
 namespace MrMusaev\EImzo;
 
 use MrMusaev\EImzo\Responses\ChallengeResponse;
+use MrMusaev\EImzo\Responses\MobileAuthenticateResponse;
 use MrMusaev\EImzo\Responses\MobileAuthResponse;
 use MrMusaev\EImzo\Responses\MobileStatusResponse;
 
@@ -13,4 +14,6 @@ interface EImzoConnection
     public function mobileAuth(): MobileAuthResponse;
 
     public function mobileStatus(string $documentId): MobileStatusResponse;
+
+    public function mobileAuthenticate(string $documentId, string $realIP, string $host): MobileAuthenticateResponse;
 }
