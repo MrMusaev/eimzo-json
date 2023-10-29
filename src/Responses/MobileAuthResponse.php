@@ -7,10 +7,10 @@ use Spatie\LaravelData\Data;
 class MobileAuthResponse extends Data
 {
     public function __construct(
-        public string $challange = '',
-        public string $documentId = '',
-        public string $siteId = '',
         public int $status = 0,
+        public string $siteId = '',
+        public string $documentId = '',
+        public string $challange = '',
         public string $message = '',
     ) {
 

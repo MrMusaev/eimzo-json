@@ -6,10 +6,13 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\TransferException;
 use MrMusaev\Eimzo\Exceptions\ParameterNotConfiguredException;
+use MrMusaev\EImzo\Requests\AuthenticateRequest;
 use MrMusaev\EImzo\Responses\ChallengeResponse;
 use MrMusaev\EImzo\Responses\MobileAuthenticateResponse;
 use MrMusaev\EImzo\Responses\MobileAuthResponse;
+use MrMusaev\EImzo\Responses\MobileSignResponse;
 use MrMusaev\EImzo\Responses\MobileStatusResponse;
+use MrMusaev\EImzo\Responses\MobileVerifyResponse;
 
 class EImzoJson implements EImzoConnection
 {
@@ -88,13 +91,13 @@ class EImzoJson implements EImzoConnection
         );
     }
 
-    public function mobileAuthenticate(string $documentId, string $realIP, string $host): MobileAuthenticateResponse
+    public function mobileAuthenticate(AuthenticateRequest $request): MobileAuthenticateResponse
     {
-        $this->url = '/backend/mobile/authenticate/' . $documentId;
+        $this->url = '/backend/mobile/authenticate/' . $request->documentId;
 
         $this->headers = [
-            'X-Real-IP' => $realIP,
-            'Host' => $host,
+            'X-Real-IP' => $request->realIP,
+            'Host' => $request->host,
         ];
 
         $this->sendGetRequest();
@@ -103,6 +106,45 @@ class EImzoJson implements EImzoConnection
             status: $this->response['status'] ?? 0,
             message: $this->response['message'] ?? '',
             subjectCertificateInfo: $this->response['subjectCertificateInfo'] ?? [],
+        );
+    }
+
+    public function mobileSign(): MobileSignResponse
+    {
+        $this->url = '/frontend/mobile/sign';
+
+        $this->sendPostRequest();
+
+        return new MobileSignResponse(
+            status: $this->response['status'] ?? 0,
+            siteId: $this->response['siteId'] ?? '',
+            documentId: $this->response['documentId'] ?? '',
+            message: $this->response['message'] ?? '',
+        );
+    }
+
+    public function mobileVerify(AuthenticateRequest $request, string $document): MobileVerifyResponse
+    {
+        $this->url = '/backend/mobile/verify/';
+
+        $this->headers = [
+            'X-Real-IP' => $request->realIP,
+            'Host' => $request->host,
+        ];
+
+        $this->requestParams = [
+            'documentId' => $request->documentId,
+            'document' => $document,
+        ];
+
+        $this->sendPostRequest();
+
+        return new MobileVerifyResponse(
+            status: $this->response['status'] ?? 0,
+            message: $this->response['message'] ?? '',
+            subjectCertificateInfo: $this->response['subjectCertificateInfo'] ?? [],
+            verificationInfo: $this->response['verificationInfo'] ?? [],
+            pkcs7Attached: $this->response['pkcs7Attached'] ?? '',
         );
     }
 
