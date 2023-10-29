@@ -53,9 +53,9 @@ class EImzoJson implements EImzoConnection
         $this->sendGetRequest();
 
         return new ChallengeResponse(
+            status: $this->response['status'] ?? 0,
             challenge: $this->response['challenge'] ?? '',
             ttl: $this->response['ttl'] ?? 0,
-            status: $this->response['status'] ?? 0,
             message: $this->response['message'] ?? '',
         );
     }
@@ -67,10 +67,10 @@ class EImzoJson implements EImzoConnection
         $this->sendPostRequest();
 
         return new MobileAuthResponse(
-            challange: $this->response['challange'] ?? '',
-            documentId: $this->response['documentId'] ?? '',
-            siteId: $this->response['siteId'] ?? '',
             status: $this->response['status'] ?? 0,
+            siteId: $this->response['siteId'] ?? '',
+            documentId: $this->response['documentId'] ?? '',
+            challange: $this->response['challange'] ?? '',
             message: $this->response['message'] ?? '',
         );
     }
