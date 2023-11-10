@@ -47,13 +47,13 @@ class SubjectCertificateInfo extends Data
         return $this->subjectName['1.2.860.3.16.1.2'] ?? '';
     }
 
-    public function getINN(): string
+    public function getTin(): string
     {
         return $this->subjectName['1.2.860.3.16.1.1'] ?? '';
     }
 
     public function isOrganization(): bool
     {
-        return !empty($this->getINN());
+        return !empty($this->getTin());
     }
 }
