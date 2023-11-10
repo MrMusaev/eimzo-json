@@ -2,6 +2,7 @@
 
 namespace MrMusaev\EImzo\Responses;
 
+use MrMusaev\EImzo\Enums\GeneralStatuses;
 use Spatie\LaravelData\Data;
 
 class MobileVerifyResponse extends Data
@@ -14,5 +15,10 @@ class MobileVerifyResponse extends Data
         public string $pkcs7Attached = '',
     ) {
 
+    }
+
+    public function isSuccessful(): bool
+    {
+        return $this->status == GeneralStatuses::SUCCESSFUL;
     }
 }

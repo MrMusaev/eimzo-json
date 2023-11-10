@@ -2,6 +2,7 @@
 
 namespace MrMusaev\EImzo\Responses;
 
+use MrMusaev\EImzo\Enums\GeneralStatuses;
 use Spatie\LaravelData\Data;
 
 class MobileAuthenticateResponse extends Data
@@ -12,5 +13,10 @@ class MobileAuthenticateResponse extends Data
         public SubjectCertificateInfo $subjectCertificateInfo = new SubjectCertificateInfo(),
     ) {
 
+    }
+
+    public function isSuccessful(): bool
+    {
+        return $this->status == GeneralStatuses::SUCCESSFUL;
     }
 }

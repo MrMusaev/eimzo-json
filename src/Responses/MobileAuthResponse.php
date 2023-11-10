@@ -2,6 +2,7 @@
 
 namespace MrMusaev\EImzo\Responses;
 
+use MrMusaev\EImzo\Enums\GeneralStatuses;
 use Spatie\LaravelData\Data;
 
 class MobileAuthResponse extends Data
@@ -14,5 +15,10 @@ class MobileAuthResponse extends Data
         public string $message = '',
     ) {
 
+    }
+
+    public function isSuccessful(): bool
+    {
+        return $this->status == GeneralStatuses::SUCCESSFUL;
     }
 }
