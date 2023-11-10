@@ -9,10 +9,11 @@ class SubjectCertificateInfo extends Data
     public function __construct(
         public string $serialNumber = '',
         public string $X500Name = '',
-        public array $subjectName = [],
+        public array  $subjectName = [],
         public string $validFrom = '',
         public string $validTo = '',
-    ) {
+    )
+    {
 
     }
 
@@ -39,5 +40,20 @@ class SubjectCertificateInfo extends Data
     public function getUid(): string
     {
         return $this->subjectName['UID'] ?? '';
+    }
+
+    public function getPINFL(): string
+    {
+        return $this->subjectName['1.2.860.3.16.1.2'] ?? '';
+    }
+
+    public function getINN(): string
+    {
+        return $this->subjectName['1.2.860.3.16.1.1'] ?? '';
+    }
+
+    public function isOrganization(): bool
+    {
+        return !empty($this->getINN());
     }
 }
