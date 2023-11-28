@@ -18,6 +18,6 @@ class ChallengeResponse extends Data
 
     public function isSuccessful(): bool
     {
-        return $this->status == GeneralStatuses::SUCCESSFUL;
+        return $this->status == GeneralStatuses::SUCCESSFUL->value;
     }
 }
