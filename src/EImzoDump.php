@@ -4,13 +4,14 @@ namespace MrMusaev\EImzo;
 
 use MrMusaev\EImzo\Requests\AuthenticateRequest;
 use MrMusaev\EImzo\Requests\DocumentRequest;
-use MrMusaev\EImzo\Responses\ChallengeResponse;
 use MrMusaev\EImzo\Responses\AuthenticateResponse;
+use MrMusaev\EImzo\Responses\ChallengeResponse;
 use MrMusaev\EImzo\Responses\MobileAuthResponse;
 use MrMusaev\EImzo\Responses\MobileSignResponse;
 use MrMusaev\EImzo\Responses\MobileStatusResponse;
 use MrMusaev\EImzo\Responses\MobileVerifyResponse;
 use MrMusaev\EImzo\Responses\SubjectCertificateInfo;
+use MrMusaev\EImzo\Responses\TimestampedDocumentResponse;
 
 class EImzoDump implements EImzoConnection
 {
@@ -42,6 +43,29 @@ class EImzoDump implements EImzoConnection
                 "validFrom" => "2022-09-16 12:21:38",
                 "validTo" => "2024-09-16 23:59:59",
             ]),
+        );
+    }
+
+    public function frontendTimestamp(DocumentRequest $request): TimestampedDocumentResponse
+    {
+        return new TimestampedDocumentResponse(
+            status: 1,
+            message: '',
+            timestampedSignerList: [
+                SubjectCertificateInfo::from([
+                    "serialNumber" => "7700000",
+                    "X500Name" => "CN\u003dIVANOV IVAN IVANOVICH,Name\u003dIVAN,SURNAME\u003dIVANOV,UID\u003d400000000,1.2.860.3.16.1.2\u003d30000000000000",
+                    "subjectName" => [
+                        "UID" => "400000000",
+                        "SURNAME" => "IVANOV",
+                        "1.2.860.3.16.1.2" => "30000000000000",
+                        "CN" => "IVANOV IVAN IVANOVICH",
+                        "Name" => "IVAN"
+                    ],
+                    "validFrom" => "2022-09-16 12:21:38",
+                    "validTo" => "2024-09-16 23:59:59",
+                ])
+            ],
         );
     }
 

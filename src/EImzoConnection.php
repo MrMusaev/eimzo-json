@@ -10,12 +10,15 @@ use MrMusaev\EImzo\Responses\MobileAuthResponse;
 use MrMusaev\EImzo\Responses\MobileSignResponse;
 use MrMusaev\EImzo\Responses\MobileStatusResponse;
 use MrMusaev\EImzo\Responses\MobileVerifyResponse;
+use MrMusaev\EImzo\Responses\TimestampedDocumentResponse;
 
 interface EImzoConnection
 {
     public function frontendChallenge(): ChallengeResponse;
 
     public function backendAuth(DocumentRequest $request): AuthenticateResponse;
+
+    public function frontendTimestamp(DocumentRequest $request): TimestampedDocumentResponse;
 
     public function mobileAuth(): MobileAuthResponse;
 

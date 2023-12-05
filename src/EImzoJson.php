@@ -8,12 +8,14 @@ use GuzzleHttp\Exception\TransferException;
 use MrMusaev\Eimzo\Exceptions\ParameterNotConfiguredException;
 use MrMusaev\EImzo\Requests\AuthenticateRequest;
 use MrMusaev\EImzo\Requests\DocumentRequest;
-use MrMusaev\EImzo\Responses\ChallengeResponse;
 use MrMusaev\EImzo\Responses\AuthenticateResponse;
+use MrMusaev\EImzo\Responses\ChallengeResponse;
 use MrMusaev\EImzo\Responses\MobileAuthResponse;
 use MrMusaev\EImzo\Responses\MobileSignResponse;
 use MrMusaev\EImzo\Responses\MobileStatusResponse;
 use MrMusaev\EImzo\Responses\MobileVerifyResponse;
+use MrMusaev\EImzo\Responses\SubjectCertificateInfo;
+use MrMusaev\EImzo\Responses\TimestampedDocumentResponse;
 
 class EImzoJson implements EImzoConnection
 {
@@ -77,6 +79,32 @@ class EImzoJson implements EImzoConnection
             status: $this->response['status'] ?? 0,
             message: $this->response['message'] ?? '',
             subjectCertificateInfo: $this->response['subjectCertificateInfo'] ?? [],
+        );
+    }
+
+    public function frontendTimestamp(DocumentRequest $request): TimestampedDocumentResponse
+    {
+        $this->url = '/frontend/timestamp/pkcs7';
+
+        $this->headers = [
+            'X-Real-IP' => $request->realIP,
+            'Host' => $request->host,
+        ];
+        $this->requestParams = [$request->document];
+
+        $this->sendPostRequest();
+
+        $list = [];
+        if (isset($this->response['timestampedSignerList']) && is_array($this->response['timestampedSignerList'])) {
+            foreach ($this->response['timestampedSignerList'] as $item) {
+                $list[] = SubjectCertificateInfo::from($item);
+            }
+        }
+
+        return new TimestampedDocumentResponse(
+            status: $this->response['status'] ?? 0,
+            message: $this->response['message'] ?? '',
+            timestampedSignerList: $list,
         );
     }
 
