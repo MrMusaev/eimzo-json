@@ -4,7 +4,7 @@ namespace MrMusaev\EImzo;
 
 use MrMusaev\EImzo\Requests\AuthenticateRequest;
 use MrMusaev\EImzo\Responses\ChallengeResponse;
-use MrMusaev\EImzo\Responses\MobileAuthenticateResponse;
+use MrMusaev\EImzo\Responses\AuthenticateResponse;
 use MrMusaev\EImzo\Responses\MobileAuthResponse;
 use MrMusaev\EImzo\Responses\MobileSignResponse;
 use MrMusaev\EImzo\Responses\MobileStatusResponse;
@@ -13,13 +13,34 @@ use MrMusaev\EImzo\Responses\SubjectCertificateInfo;
 
 class EImzoDump implements EImzoConnection
 {
-    public function createChallenge(): ChallengeResponse
+    public function frontendChallenge(): ChallengeResponse
     {
         return new ChallengeResponse(
             status: 1,
             challenge: substr(md5(rand()), 0, 32),
             ttl: 120,
             message: '',
+        );
+    }
+
+    public function backendAuth(AuthenticateRequest $request): AuthenticateResponse
+    {
+        return new AuthenticateResponse(
+            status: 1,
+            message: '',
+            subjectCertificateInfo: SubjectCertificateInfo::from([
+                "serialNumber" => "7700000",
+                "X500Name" => "CN\u003dIVANOV IVAN IVANOVICH,Name\u003dIVAN,SURNAME\u003dIVANOV,UID\u003d400000000,1.2.860.3.16.1.2\u003d30000000000000",
+                "subjectName" => [
+                    "UID" => "400000000",
+                    "SURNAME" => "IVANOV",
+                    "1.2.860.3.16.1.2" => "30000000000000",
+                    "CN" => "IVANOV IVAN IVANOVICH",
+                    "Name" => "IVAN"
+                ],
+                "validFrom" => "2022-09-16 12:21:38",
+                "validTo" => "2024-09-16 23:59:59",
+            ]),
         );
     }
 
@@ -42,9 +63,9 @@ class EImzoDump implements EImzoConnection
         );
     }
 
-    public function mobileAuthenticate(AuthenticateRequest $request): MobileAuthenticateResponse
+    public function mobileAuthenticate(AuthenticateRequest $request): AuthenticateResponse
     {
-        return new MobileAuthenticateResponse(
+        return new AuthenticateResponse(
             status: 1,
             message: '',
             subjectCertificateInfo: SubjectCertificateInfo::from([

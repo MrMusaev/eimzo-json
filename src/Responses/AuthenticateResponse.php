@@ -5,7 +5,7 @@ namespace MrMusaev\EImzo\Responses;
 use MrMusaev\EImzo\Enums\GeneralStatuses;
 use Spatie\LaravelData\Data;
 
-class MobileAuthenticateResponse extends Data
+class AuthenticateResponse extends Data
 {
     public function __construct(
         public int $status = 0,

@@ -8,7 +8,7 @@ use GuzzleHttp\Exception\TransferException;
 use MrMusaev\Eimzo\Exceptions\ParameterNotConfiguredException;
 use MrMusaev\EImzo\Requests\AuthenticateRequest;
 use MrMusaev\EImzo\Responses\ChallengeResponse;
-use MrMusaev\EImzo\Responses\MobileAuthenticateResponse;
+use MrMusaev\EImzo\Responses\AuthenticateResponse;
 use MrMusaev\EImzo\Responses\MobileAuthResponse;
 use MrMusaev\EImzo\Responses\MobileSignResponse;
 use MrMusaev\EImzo\Responses\MobileStatusResponse;
@@ -46,7 +46,7 @@ class EImzoJson implements EImzoConnection
         ]);
     }
 
-    public function createChallenge(): ChallengeResponse
+    public function frontendChallenge(): ChallengeResponse
     {
         $this->url = '/frontend/challenge';
 
@@ -59,6 +59,26 @@ class EImzoJson implements EImzoConnection
             message: $this->response['message'] ?? '',
         );
     }
+
+    public function backendAuth(AuthenticateRequest $request): AuthenticateResponse
+    {
+        $this->url = '/backend/auth';
+
+        $this->headers = [
+            'X-Real-IP' => $request->realIP,
+            'Host' => $request->host,
+        ];
+        $this->requestParams = [$request->document];
+
+        $this->sendPostRequest();
+
+        return new AuthenticateResponse(
+            status: $this->response['status'] ?? 0,
+            message: $this->response['message'] ?? '',
+            subjectCertificateInfo: $this->response['subjectCertificateInfo'] ?? [],
+        );
+    }
+
 
     public function mobileAuth(): MobileAuthResponse
     {
@@ -91,9 +111,9 @@ class EImzoJson implements EImzoConnection
         );
     }
 
-    public function mobileAuthenticate(AuthenticateRequest $request): MobileAuthenticateResponse
+    public function mobileAuthenticate(AuthenticateRequest $request): AuthenticateResponse
     {
-        $this->url = '/backend/mobile/authenticate/' . $request->documentId;
+        $this->url = '/backend/mobile/authenticate/' . $request->document;
 
         $this->headers = [
             'X-Real-IP' => $request->realIP,
@@ -102,7 +122,7 @@ class EImzoJson implements EImzoConnection
 
         $this->sendGetRequest();
 
-        return new MobileAuthenticateResponse(
+        return new AuthenticateResponse(
             status: $this->response['status'] ?? 0,
             message: $this->response['message'] ?? '',
             subjectCertificateInfo: $this->response['subjectCertificateInfo'] ?? [],
@@ -133,7 +153,7 @@ class EImzoJson implements EImzoConnection
         ];
 
         $this->requestParams = [
-            'documentId' => $request->documentId,
+            'documentId' => $request->document,
             'document' => $document,
         ];
 
