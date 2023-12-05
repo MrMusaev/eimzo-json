@@ -11,6 +11,7 @@ use MrMusaev\EImzo\Responses\MobileSignResponse;
 use MrMusaev\EImzo\Responses\MobileStatusResponse;
 use MrMusaev\EImzo\Responses\MobileVerifyResponse;
 use MrMusaev\EImzo\Responses\TimestampedDocumentResponse;
+use MrMusaev\EImzo\Responses\VerifyAttachedResponse;
 
 interface EImzoConnection
 {
@@ -19,6 +20,8 @@ interface EImzoConnection
     public function backendAuth(DocumentRequest $request): AuthenticateResponse;
 
     public function frontendTimestamp(DocumentRequest $request): TimestampedDocumentResponse;
+
+    public function backendVerifyAttached(DocumentRequest $request): VerifyAttachedResponse;
 
     public function mobileAuth(): MobileAuthResponse;
 

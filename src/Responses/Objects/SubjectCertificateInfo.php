@@ -29,7 +29,7 @@ class SubjectCertificateInfo extends Data
 
     public function getFullName(): string
     {
-        return $this->getName() . ' ' . $this->getSurname();
+        return $this->getName() . ' SubjectCertificateInfo.php' . $this->getSurname();
     }
 
     public function getCN(): string

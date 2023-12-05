@@ -14,8 +14,10 @@ use MrMusaev\EImzo\Responses\MobileAuthResponse;
 use MrMusaev\EImzo\Responses\MobileSignResponse;
 use MrMusaev\EImzo\Responses\MobileStatusResponse;
 use MrMusaev\EImzo\Responses\MobileVerifyResponse;
+use MrMusaev\EImzo\Responses\Pkcs7Info;
 use MrMusaev\EImzo\Responses\SubjectCertificateInfo;
 use MrMusaev\EImzo\Responses\TimestampedDocumentResponse;
+use MrMusaev\EImzo\Responses\VerifyAttachedResponse;
 
 class EImzoJson implements EImzoConnection
 {
@@ -78,7 +80,7 @@ class EImzoJson implements EImzoConnection
         return new AuthenticateResponse(
             status: $this->response['status'] ?? 0,
             message: $this->response['message'] ?? '',
-            subjectCertificateInfo: $this->response['subjectCertificateInfo'] ?? [],
+            subjectCertificateInfo: SubjectCertificateInfo::from($this->response['subjectCertificateInfo'] ?? []),
         );
     }
 
@@ -108,6 +110,24 @@ class EImzoJson implements EImzoConnection
         );
     }
 
+    public function backendVerifyAttached(DocumentRequest $request): VerifyAttachedResponse
+    {
+        $this->url = '/backend/pkcs7/verify/attached';
+
+        $this->headers = [
+            'X-Real-IP' => $request->realIP,
+            'Host' => $request->host,
+        ];
+        $this->requestParams = [$request->document];
+
+        $this->sendPostRequest();
+
+        return new VerifyAttachedResponse(
+            status: $this->response['status'] ?? 0,
+            message: $this->response['message'] ?? '',
+            pkcs7Info: Pkcs7Info::from($this->response['pkcs7Info'] ?? []),
+        );
+    }
 
     public function mobileAuth(): MobileAuthResponse
     {
@@ -154,7 +174,7 @@ class EImzoJson implements EImzoConnection
         return new AuthenticateResponse(
             status: $this->response['status'] ?? 0,
             message: $this->response['message'] ?? '',
-            subjectCertificateInfo: $this->response['subjectCertificateInfo'] ?? [],
+            subjectCertificateInfo: SubjectCertificateInfo::from($this->response['subjectCertificateInfo'] ?? []),
         );
     }
 
@@ -191,7 +211,7 @@ class EImzoJson implements EImzoConnection
         return new MobileVerifyResponse(
             status: $this->response['status'] ?? 0,
             message: $this->response['message'] ?? '',
-            subjectCertificateInfo: $this->response['subjectCertificateInfo'] ?? [],
+            subjectCertificateInfo: SubjectCertificateInfo::from($this->response['subjectCertificateInfo'] ?? []),
             verificationInfo: $this->response['verificationInfo'] ?? [],
             pkcs7Attached: $this->response['pkcs7Attached'] ?? '',
         );
