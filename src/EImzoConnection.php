@@ -3,6 +3,7 @@
 namespace MrMusaev\EImzo;
 
 use MrMusaev\EImzo\Requests\AuthenticateRequest;
+use MrMusaev\EImzo\Requests\DocumentRequest;
 use MrMusaev\EImzo\Responses\ChallengeResponse;
 use MrMusaev\EImzo\Responses\AuthenticateResponse;
 use MrMusaev\EImzo\Responses\MobileAuthResponse;
@@ -14,7 +15,7 @@ interface EImzoConnection
 {
     public function frontendChallenge(): ChallengeResponse;
 
-    public function backendAuth(AuthenticateRequest $request): AuthenticateResponse;
+    public function backendAuth(DocumentRequest $request): AuthenticateResponse;
 
     public function mobileAuth(): MobileAuthResponse;
 

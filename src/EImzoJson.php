@@ -7,6 +7,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\TransferException;
 use MrMusaev\Eimzo\Exceptions\ParameterNotConfiguredException;
 use MrMusaev\EImzo\Requests\AuthenticateRequest;
+use MrMusaev\EImzo\Requests\DocumentRequest;
 use MrMusaev\EImzo\Responses\ChallengeResponse;
 use MrMusaev\EImzo\Responses\AuthenticateResponse;
 use MrMusaev\EImzo\Responses\MobileAuthResponse;
@@ -60,7 +61,7 @@ class EImzoJson implements EImzoConnection
         );
     }
 
-    public function backendAuth(AuthenticateRequest $request): AuthenticateResponse
+    public function backendAuth(DocumentRequest $request): AuthenticateResponse
     {
         $this->url = '/backend/auth';
 
@@ -113,7 +114,7 @@ class EImzoJson implements EImzoConnection
 
     public function mobileAuthenticate(AuthenticateRequest $request): AuthenticateResponse
     {
-        $this->url = '/backend/mobile/authenticate/' . $request->document;
+        $this->url = '/backend/mobile/authenticate/' . $request->documentId;
 
         $this->headers = [
             'X-Real-IP' => $request->realIP,
@@ -153,7 +154,7 @@ class EImzoJson implements EImzoConnection
         ];
 
         $this->requestParams = [
-            'documentId' => $request->document,
+            'documentId' => $request->documentId,
             'document' => $document,
         ];
 

@@ -4,10 +4,10 @@ namespace MrMusaev\EImzo\Requests;
 
 use Spatie\LaravelData\Data;
 
-class AuthenticateRequest extends Data
+class DocumentRequest extends Data
 {
     public function __construct(
-        public string $documentId,
+        public string $document,
         public string $realIP,
         public string $host,
     ) {

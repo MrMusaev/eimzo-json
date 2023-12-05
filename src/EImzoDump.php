@@ -3,6 +3,7 @@
 namespace MrMusaev\EImzo;
 
 use MrMusaev\EImzo\Requests\AuthenticateRequest;
+use MrMusaev\EImzo\Requests\DocumentRequest;
 use MrMusaev\EImzo\Responses\ChallengeResponse;
 use MrMusaev\EImzo\Responses\AuthenticateResponse;
 use MrMusaev\EImzo\Responses\MobileAuthResponse;
@@ -23,7 +24,7 @@ class EImzoDump implements EImzoConnection
         );
     }
 
-    public function backendAuth(AuthenticateRequest $request): AuthenticateResponse
+    public function backendAuth(DocumentRequest $request): AuthenticateResponse
     {
         return new AuthenticateResponse(
             status: 1,
